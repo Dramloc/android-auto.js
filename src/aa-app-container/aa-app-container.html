@@ -1,0 +1,32 @@
+<template>
+  <style>
+    :host {
+      position: fixed;
+      left: 0;
+      width: 100%;
+      top: 0;
+      bottom: 72px;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-image: url('assets/background-day.jpg');
+      background-size: cover;
+    }
+  </style>
+  <content></content>
+</template>
+
+<script>
+  (function () {
+    const currentDocument = document.currentScript.ownerDocument;
+    class AAAppContainer extends HTMLElement {
+      createdCallback() {
+        const root = this.createShadowRoot();
+        const template = currentDocument.querySelector('template');
+        this.element = document.importNode(template.content, true);
+        root.appendChild(this.element);
+      }
+    }
+    document.registerElement('aa-app-container', AAAppContainer);
+  })();
+
+</script>

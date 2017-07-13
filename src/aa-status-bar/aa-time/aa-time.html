@@ -1,0 +1,52 @@
+<template>
+  <style>
+    .aa-time__text {
+      color: #f2f2f2;
+      font-size: 22px;
+      line-height: 26px;
+    }
+    
+    @media(max-width: 599px) {
+      :host {
+        display: none;
+      }
+    }
+  </style>
+  <span class="aa-time__text"></span>
+</template>
+
+<script>
+  (function () {
+    const currentDocument = document.currentScript.ownerDocument;
+    class AATime extends HTMLElement {
+      createdCallback() {
+        this.updateTime = this.updateTime.bind(this);
+        const root = this.createShadowRoot();
+        const template = currentDocument.querySelector('template');
+        this.element = document.importNode(template.content, true);
+        this.text = this.element.querySelector('.aa-time__text');
+        root.appendChild(this.element);
+      }
+
+      attachedCallback() {
+        this.interval = setInterval(this.updateTime, 1000);
+        this.updateTime();
+      }
+
+      detachedCallback() {
+        if (undefined !== this.interval) {
+          clearInterval(this.interval);
+        }
+      }
+
+      updateTime() {
+        const now = new Date();
+        const hours = ('0' + now.getHours()).slice(-2);
+        const minutes = ('0' + now.getMinutes()).slice(-2);
+        this.text.textContent = hours + ':' + minutes;
+      }
+    }
+    document.registerElement('aa-time', AATime);
+  })();
+
+</script>

@@ -1,0 +1,34 @@
+<template>
+  <style>
+    :host {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      margin: 0 16px;
+      white-space: nowrap;
+    }
+    
+    @media(max-width: 599px) {
+      :host {
+        margin: 0 8px;
+      }
+    }
+  </style>
+  <content></content>
+</template>
+
+<script>
+  (function () {
+    const currentDocument = document.currentScript.ownerDocument;
+    class AACardContent extends HTMLElement {
+      createdCallback() {
+        const root = this.createShadowRoot();
+        const template = currentDocument.querySelector('template');
+        this.element = document.importNode(template.content, true);
+        root.appendChild(this.element);
+      }
+    }
+    document.registerElement('aa-card-content', AACardContent);
+  })();
+
+</script>

@@ -1,0 +1,34 @@
+<script>
+  (function () {
+    const currentDocument = document.currentScript.ownerDocument;
+    class AAAppRouter extends HTMLElement {
+      createdCallback() {
+        this.root = this.createShadowRoot();
+        this.apps = {};
+      }
+
+      register(name, element) {
+        this.apps[name] = element;
+      }
+
+      go(name) {
+        this.clear();
+        const elementName = this.apps[name];
+        if (elementName === undefined) {
+          console.warn(`app ${name} is not registered`);
+          return;
+        }
+        const app = document.createElement(this.apps[name]);
+        this.root.appendChild(app);
+      }
+
+      clear() {
+        while (this.root.firstChild) {
+          this.root.removeChild(this.root.firstChild);
+        }
+      }
+    }
+    document.registerElement('aa-app-router', AAAppRouter);
+  })();
+
+</script>

@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Android auto</title>
+  <meta name="description" content="Android auto">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#161f25">
+
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <link href="style.css" rel="stylesheet">
+  <link href="typography.css" rel="stylesheet">
+
+  <link href="aa-icon/aa-icon.html" rel="import">
+  <link href="aa-action/aa-action.html" rel="import">
+  <link href="aa-status-bar/aa-voice-command/aa-voice-command.html" rel="import">
+  <link href="aa-status-bar/aa-battery-status/aa-battery-status.html" rel="import">
+  <link href="aa-status-bar/aa-network-status/aa-network-status.html" rel="import">
+  <link href="aa-status-bar/aa-time/aa-time.html" rel="import">
+  <link href="aa-status-bar/aa-status-bar.html" rel="import">
+  <link href="aa-activity-bar/aa-activity-bar.html" rel="import">
+  <link href="aa-app-container/aa-app-container.html" rel="import">
+  <link href="aa-content/aa-content.html" rel="import">
+  <link href="aa-card/aa-card.html" rel="import">
+  <link href="aa-card/aa-card-content.html" rel="import">
+  <link href="aa-card/aa-card-graphic.html" rel="import">
+
+  <link href="aa-app-router/aa-app-router.html" rel="import">
+  <link href="aa-home/aa-home.html" rel="import">
+</head>
+
+<body>
+  <!--[if lte IE 9]>
+    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+  <![endif]-->
+  <aa-app-container>
+    <aa-status-bar></aa-status-bar>
+    <aa-app-router></aa-app-router>
+  </aa-app-container>
+  <aa-activity-bar></aa-activity-bar>
+
+  <script>
+    (function () {
+      const router = document.querySelector('aa-app-router');
+      const activityBar = document.querySelector('aa-activity-bar');
+
+      const activities = [{
+        icon: 'directions',
+        ariaLabel: 'Navigation',
+      }, {
+        icon: 'call',
+        ariaLabel: 'Communication',
+      }, {
+        icon: 'radio_button_unchecked',
+        ariaLabel: 'Home',
+        name: 'home',
+        component: 'aa-home',
+        isDefault: true,
+      }, {
+        icon: 'headset',
+        ariaLabel: 'Media/Audio',
+      }, {
+        icon: 'directions_car',
+        ariaLabel: 'Car',
+        name: 'car',
+        component: 'aa-card',
+      }];
+
+      activities.map((activity) => {
+        const item = activityBar.addActivity(activity);
+        router.register(activity.name, activity.component);
+        item.addEventListener('click', () => {
+          router.go(activity.name);
+        });
+        if (activity.isDefault) {
+          router.go(activity.name);
+          activityBar.selectActivity(item);
+        }
+      });
+    })();
+  </script>
+</body>
+
+</html>

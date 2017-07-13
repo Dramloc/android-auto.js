@@ -1,0 +1,33 @@
+<template>
+  <style>
+    :host {
+      color: #f2f2f2;
+      margin: 0 8px;
+    }
+
+    @media(max-width: 599px) {
+      :host {
+        margin: 0;
+      }
+    }
+  </style>
+  <aa-action aria-label="Voice commands">
+    <aa-icon icon="keyboard_voice"></aa-icon>
+  </aa-action>
+</template>
+
+<script>
+  (function () {
+    const currentDocument = document.currentScript.ownerDocument;
+    class AAVoiceCommand extends HTMLElement {
+      createdCallback() {
+        const root = this.createShadowRoot();
+        const template = currentDocument.querySelector('template');
+        this.element = document.importNode(template.content, true);
+        root.appendChild(this.element);
+      }
+    }
+    document.registerElement('aa-voice-command', AAVoiceCommand);
+  })();
+
+</script>

@@ -1,0 +1,40 @@
+<template>
+  <style>
+    :host {
+      display: block;
+      position: fixed;
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+      top: 72px;
+      bottom: 72px;
+      right: 72px;
+      left: 72px;
+    }
+    
+    @media(max-width: 599px) {
+      :host {
+        top: 64px;
+        right: 0px;
+        left: 0px;
+      }
+    }
+  </style>
+  <aa-scrollbar></aa-scrollbar>
+  <content></content>
+</template>
+
+<script>
+  (function () {
+    const currentDocument = document.currentScript.ownerDocument;
+    class AAContent extends HTMLElement {
+      createdCallback() {
+        const root = this.createShadowRoot();
+        const template = currentDocument.querySelector('template');
+        this.element = document.importNode(template.content, true);
+        root.appendChild(this.element);
+      }
+    }
+    document.registerElement('aa-content', AAContent);
+  })();
+
+</script>

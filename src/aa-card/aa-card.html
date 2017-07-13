@@ -1,0 +1,46 @@
+<template>
+  <style>
+    :host {
+      display: flex;
+      flex-direction: row;
+      align-content: center;
+      align-items: center;
+      margin: 8px;
+      background-color: #fff;
+      min-height: 88px;
+      border-radius: 3px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 2px 1px -1px rgba(0, 0, 0, .12);
+    }
+
+    ::content> aa-action {
+      margin-left: 16px;
+    }
+    
+    @media(max-width: 599px) {
+      :host {
+        border-radius: 8px;
+      }
+      ::content> aa-action {
+        margin-left: 8px;
+      }
+    }
+  </style>
+  <content></content>
+</template>
+
+<script>
+  (function () {
+    const currentDocument = document.currentScript.ownerDocument;
+    class AACard extends HTMLElement {
+      createdCallback() {
+        const root = this.createShadowRoot();
+        const template = currentDocument.querySelector('template');
+        this.element = document.importNode(template.content, true);
+        root.appendChild(this.element);
+      }
+    }
+    document.registerElement('aa-card', AACard);
+  })();
+
+</script>

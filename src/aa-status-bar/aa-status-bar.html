@@ -1,0 +1,40 @@
+<template>
+  <style>
+    :host {
+      position: fixed;
+      top: 0;
+      right: 0;
+      height: 72px;
+      display: flex;
+      flex-direction: row;
+      align-content: center;
+      align-items: center;
+    }
+    
+    @media(max-width: 599px) {
+      :host {
+        height: 64px;
+      }
+    }
+  </style>
+  <aa-network-status></aa-network-status>
+  <aa-battery-status></aa-battery-status>
+  <aa-time></aa-time>
+  <aa-voice-command></aa-voice-command>
+</template>
+
+<script>
+  (function () {
+    const currentDocument = document.currentScript.ownerDocument;
+    class AAStatusBar extends HTMLElement {
+      createdCallback() {
+        const root = this.createShadowRoot();
+        const template = currentDocument.querySelector('template');
+        this.element = document.importNode(template.content, true);
+        root.appendChild(this.element);
+      }
+    }
+    document.registerElement('aa-status-bar', AAStatusBar);
+  })();
+
+</script>

@@ -1,0 +1,28 @@
+<template>
+  <style>
+    :host {
+      display: block;
+    }
+
+    ::content > img {
+      display: block;
+    }
+  </style>
+  <content></content>
+</template>
+
+<script>
+  (function () {
+    const currentDocument = document.currentScript.ownerDocument;
+    class AACardGraphic extends HTMLElement {
+      createdCallback() {
+        const root = this.createShadowRoot();
+        const template = currentDocument.querySelector('template');
+        this.element = document.importNode(template.content, true);
+        root.appendChild(this.element);
+      }
+    }
+    document.registerElement('aa-card-graphic', AACardGraphic);
+  })();
+
+</script>

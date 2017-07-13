@@ -1,0 +1,41 @@
+<template>
+  <aa-content>
+    <aa-card>
+      <aa-action aria-label="Pause">
+        <aa-icon icon="pause" size="48px" color="#616161"></aa-icon>
+      </aa-action>
+      <aa-card-content>
+        <span class="aa-title">Stranded</span>
+        <span class="aa-subtitle">Gojira - Magma</span>
+      </aa-card-content>
+      <aa-card-graphic>
+        <img src="assets/gojira-album-cover.jpg" height="150" width="150" alt="Gojira - Magma">
+      </aa-card-graphic>
+    </aa-card>
+    <aa-card>
+      <aa-action aria-label="Call Martin">
+        <aa-icon icon="call" size="48px" color="#616161"></aa-icon>
+      </aa-action>
+      <aa-card-content>
+        <span class="aa-title">Call Martin</span>
+        <span class="aa-subtitle">Call missed 7 minutes ago</span>
+      </aa-card-content>
+    </aa-card>
+  </aa-content>
+</template>
+
+<script>
+  (function () {
+    const currentDocument = document.currentScript.ownerDocument;
+    class AAHome extends HTMLElement {
+      createdCallback() {
+        const root = this.createShadowRoot();
+        const template = currentDocument.querySelector('template');
+        this.element = document.importNode(template.content, true);
+        root.appendChild(this.element);
+      }
+    }
+    document.registerElement('aa-home', AAHome);
+  })();
+
+</script>

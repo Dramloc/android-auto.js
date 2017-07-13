@@ -1,0 +1,86 @@
+<template id="activity-bar-template">
+  <style>
+    :host {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 72px;
+      background-color: #161f25;
+    }
+    
+    .aa-activity-bar__list {
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      box-sizing: border-box;
+      flex-direction: row;
+      align-items: center;
+      align-content: center;
+      justify-content: space-between;
+    }
+    
+    .aa-activity-bar__item {
+      color: #8b8f92;
+      list-style: none;
+    }
+    
+    .aa-activity-bar__item--selected {
+      color: #ffffff;
+    }
+  </style>
+  <ol class="aa-activity-bar__list">
+  </ol>
+</template>
+
+<template id="activity-bar-item-template">
+  <li class="aa-activity-bar__item">
+    <aa-action>
+      <aa-icon size="32px"></aa-icon>
+    </aa-action>
+  </li>
+</template>
+
+<script>
+  (function () {
+    const currentDocument = document.currentScript.ownerDocument;
+    class AAActivityBar extends HTMLElement {
+      createdCallback() {
+        this.selectActivity = this.selectActivity.bind(this);
+        const root = this.createShadowRoot();
+        const template = currentDocument.querySelector('#activity-bar-template');
+        this.element = document.importNode(template.content, true);
+        this.list = this.element.querySelector('.aa-activity-bar__list');
+        this.items = [];
+        root.appendChild(this.element);
+      }
+
+      addActivity(activity) {
+        const icon = activity.icon;
+        const ariaLabel = activity.ariaLabel;
+        const template = currentDocument.querySelector('#activity-bar-item-template');
+        const item = document.importNode(template.content, true);
+        const listItem = item.querySelector('.aa-activity-bar__item');
+
+        listItem.addEventListener('click', () => {
+          this.selectActivity(listItem);
+        }, false);
+        item.querySelector('aa-action').setAttribute('aria-label', ariaLabel);
+        item.querySelector('aa-icon').setAttribute('icon', icon);
+        this.items.push(listItem);
+        this.list.appendChild(item);
+        return listItem;
+      }
+
+      selectActivity(selectedItem) {
+        this.items.forEach((item) => {
+          item.classList.remove('aa-activity-bar__item--selected');
+        });
+        selectedItem.classList.add('aa-activity-bar__item--selected');
+      }
+    }
+    document.registerElement('aa-activity-bar', AAActivityBar);
+  })();
+
+</script>

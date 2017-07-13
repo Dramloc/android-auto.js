@@ -1,0 +1,51 @@
+<template>
+  <style>
+    :host {
+      color: #f2f2f2;
+    }
+    
+    @media(max-width: 599px) {
+      :host {
+        display: none;
+      }
+    }
+  </style>
+  <aa-icon icon="signal_cellular_null" size="24px"></aa-icon>
+</template>
+
+<script>
+  (function () {
+    const currentDocument = document.currentScript.ownerDocument;
+    class AANetworkStatus extends HTMLElement {
+      createdCallback() {
+        this.updateNetworkStatus = this.updateNetworkStatus.bind(this);
+        const root = this.createShadowRoot();
+        const template = currentDocument.querySelector('template');
+        this.element = document.importNode(template.content, true);
+        this.icon = this.element.querySelector('aa-icon');
+        root.appendChild(this.element);
+      }
+
+      attachedCallback() {
+        window.addEventListener('online', this.updateNetworkStatus);
+        window.addEventListener('offline', this.updateNetworkStatus);
+        this.updateNetworkStatus();
+      }
+
+      detachedCallback() {
+        window.removeEventListener('online', this.updateNetworkStatus);
+        window.removeEventListener('offline', this.updateNetworkStatus);
+      }
+
+      updateNetworkStatus() {
+        if (navigator.onLine) {
+          this.icon.setAttribute('icon', 'signal_cellular_4_bar');
+          return;
+        }
+        this.icon.setAttribute('icon', 'signal_cellular_off');
+      }
+    }
+    document.registerElement('aa-network-status', AANetworkStatus);
+  })();
+
+</script>

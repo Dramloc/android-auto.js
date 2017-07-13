@@ -1,0 +1,33 @@
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+.aa-headline-1 {
+  font-size: 45px;
+  color: rgba(0,0,0,0.83);
+}
+
+.aa-headline-2 {
+  font-size: 36px;
+  color: rgba(0,0,0,0.83);
+}
+
+.aa-title {
+  font-size: 26px;
+  color: rgba(0,0,0,0.83);
+}
+
+.aa-subtitle {
+  font-size: 18px;
+  color: rgba(0,0,0,0.67);
+}
+
+.aa-body-1 {
+  font-size: 32px;
+  color: rgba(0,0,0,0.83);
+}
+
+.aa-body-2 {
+  font-size: 26px;
+  color: rgba(0,0,0,0.83);
+}

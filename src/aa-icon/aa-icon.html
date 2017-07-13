@@ -1,0 +1,73 @@
+<template>
+  <style>
+    .aa-icon {
+      font-family: 'Material Icons';
+      font-weight: normal;
+      font-style: normal;
+      font-size: 32px;
+      line-height: 1;
+      letter-spacing: normal;
+      text-transform: none;
+      display: inline-block;
+      white-space: nowrap;
+      word-wrap: normal;
+      direction: ltr;
+      -webkit-font-feature-settings: 'liga';
+      -webkit-font-smoothing: antialiased;
+    }
+  </style>
+  <i class="aa-icon"></i>
+</template>
+
+<script>
+  (function () {
+    const currentDocument = document.currentScript.ownerDocument;
+    class AAIcon extends HTMLElement {
+      attachedCallback() {
+        const root = this.createShadowRoot();
+        const template = currentDocument.querySelector('template');
+        this.element = document.importNode(template.content, true);
+        this.icon = this.element.querySelector('.aa-icon');
+        this.setIcon(this.getAttribute('icon'));
+        this.setSize(this.getAttribute('size'));
+        this.setColor(this.getAttribute('color'));
+        root.appendChild(this.element);
+      }
+
+      attributeChangedCallback(name, oldValue, newValue) {
+        if (name === 'icon' && oldValue !== newValue) {
+          this.setIcon(newValue);
+        }
+        if (name === 'size' && oldValue !== newValue) {
+          this.setSize(newValue);
+        }
+        if (name === 'color' && oldValue !== newValue) {
+          this.setColor(newValue);
+        }
+      }
+
+      setIcon(value) {
+        if (undefined === this.icon || undefined === value) {
+          return;
+        }
+        this.icon.textContent = value;
+      }
+
+      setSize(value) {
+        if (undefined === this.icon || undefined === value) {
+          return;
+        }
+        this.icon.style.fontSize = value;
+      }
+
+      setColor(value) {
+        if (undefined === this.icon || undefined === value) {
+          return;
+        }
+        this.icon.style.color = value;
+      }
+    }
+    document.registerElement('aa-icon', AAIcon);
+  })();
+
+</script>
